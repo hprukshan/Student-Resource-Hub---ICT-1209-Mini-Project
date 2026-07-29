@@ -25,32 +25,45 @@
 </head>
 
 <body>
-    <!-- TOP NAVIGATION BAR -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-0">
+    
+   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2">
         <div class="container-fluid px-4">
             <a class="navbar-brand p-0 m-0" href="index.html">
-                <img src="logonew1.png" alt="Xnotes Logo" height="90">
+                <img src="logonew1.png" alt="Xnotes Logo" height="80">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="register.html">Signup</a></li>
+                <ul class="navbar-nav align-items-center gap-2">
+                    <!-- Home අයිකන් එක -->
+                    <li class="nav-item">
+                        <a class="nav-link active px-3" href="index.html" title="Home">
+                            <i class="bi bi-house-door-fill" style="font-size: 1.9rem; color: #967bb6;"></i>
+                        </a>
+                    </li>
+                    <!-- About අයිකන් එක -->
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#" title="About">
+                            <i class="bi bi-info-circle-fill" style="font-size: 1.9rem; color: #967bb6;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="nav-link btn px-4 fw-semibold" style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn px-4 text-white fw-semibold shadow-sm" style="background-color: #967bb6; border-radius: 50px;" href="register.html">Signup</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-
     <!-- MAIN CONTENT -->
     <div class="container mt-5 main-content">
 
         <div class="text-center mb-4">
-           <h2 class="fw-bold">Welcome to <span style="color: #967bb6;">Xnotes</span></h2>
+           <h1 class="fw-bold">Welcome to <span style="color: #967bb6;">Xnotes</span></h1>
             <p class="fs-5 mt-2 text-dark">The ultimate BICT Resource Hub for undergraduates</p>
         </div>
 
