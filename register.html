@@ -5,18 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Xnotes</title>
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    
     <style>
-       body {
-            /* Background Image with a white transparent overlay */
+        :root {
+            --primary-color: #967bb6;
+            --primary-hover: #7e679a;
+        }
+
+        body {
             background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('background.jpg');
             background-size: cover; 
             background-position: center; 
             background-repeat: no-repeat;
             background-attachment: fixed;
-            
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -25,26 +31,44 @@
         .main-content {
             flex-grow: 1;
         }
-        .btn-custom {
-            background-color: #967bb6;
+
+        .text-theme { color: var(--primary-color) !important; }
+        
+        .btn-outline-theme {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .btn-outline-theme:hover {
+            background-color: var(--primary-color);
             color: white;
-            border: none;
         }
 
-        .btn-custom:hover {
-            background-color: #7a6396;
+        .btn-theme {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+        .btn-theme:hover {
+            background-color: var(--primary-hover);
             color: white;
         }
 
-        .text-custom {
-            color: #967bb6;
+        .glass-card {
+            border-radius: 1rem;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.95);
         }
     </style>
 </head>
 
 <body>
 
- <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2">
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2">
         <div class="container-fluid px-4">
             <a class="navbar-brand p-0 m-0" href="index.html">
                 <img src="logonew1.png" alt="Xnotes Logo" height="80">
@@ -54,23 +78,21 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center gap-2">
-                    <!-- Home අයිකන් එක -->
                     <li class="nav-item">
-                        <a class="nav-link active px-3" href="index.html" title="Home">
-                            <i class="bi bi-house-door-fill" style="font-size: 1.9rem; color: #967bb6;"></i>
+                        <a class="nav-link px-3" href="index.html" title="Home">
+                            <i class="bi bi-house-door-fill text-theme" style="font-size: 1.9rem;"></i>
                         </a>
                     </li>
-                    <!-- About අයිකන් එක -->
                     <li class="nav-item">
                         <a class="nav-link px-3" href="#" title="About">
-                            <i class="bi bi-info-circle-fill" style="font-size: 1.9rem; color: #967bb6;"></i>
+                            <i class="bi bi-info-circle-fill text-theme" style="font-size: 1.9rem;"></i>
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 fw-semibold" style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;" href="login.html">Login</a>
+                        <a class="nav-link btn px-4 btn-outline-theme" href="login.html">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn px-4 text-white fw-semibold shadow-sm" style="background-color: #967bb6; border-radius: 50px;" href="register.html">Signup</a>
+                        <a class="nav-link btn px-4 btn-theme shadow-sm" href="register.html">Signup</a>
                     </li>
                 </ul>
             </div>
@@ -79,53 +101,67 @@
 
     <!-- MAIN CONTENT (SIGN UP FORM) -->
     <div class="container d-flex justify-content-center align-items-center mt-5 mb-5 main-content">
-        <div class="card shadow-lg border-0 rounded-4" style="width: 100%; max-width: 500px;">
-            <div class="card-body p-5">
-                <h3 class="text-center fw-bold mb-2">Create an Account</h3>
-                <p class="text-center text-muted mb-4">Join Xnotes to access BICT resources</p>
+        <div class="card shadow-lg border-0 glass-card" style="width: 100%; max-width: 500px;">
+            <div class="card-body p-4 p-md-5">
+                
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-plus text-theme" style="font-size: 3rem;"></i>
+                    <h3 class="fw-bold mt-2">Create an Account</h3>
+                    <p class="text-muted">Join Xnotes to access BICT resources</p>
+                </div>
 
-                <!-- Error Message Box -->
-                <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+                <div id="errorAlert" class="alert alert-danger d-none text-center" role="alert"></div>
 
                 <form id="registerForm">
                     <div class="mb-3">
                         <label for="fullName" class="form-label fw-semibold">Full Name</label>
-                        <input type="text" class="form-control form-control-lg" id="fullName"
-                            placeholder="Enter your full name">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-person text-muted"></i></span>
+                            <input type="text" class="form-control form-control-lg" id="fullName" placeholder="Enter your full name">
+                        </div>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="email" class="form-label fw-semibold">University Email</label>
-                        <input type="email" class="form-control form-control-lg" id="email"
-                            placeholder="username@tec.rjt.ac.lk">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-envelope text-muted"></i></span>
+                            <input type="email" class="form-control form-control-lg" id="email" placeholder="username@tec.rjt.ac.lk">
+                        </div>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="password" class="form-label fw-semibold">Password</label>
-                        <input type="password" class="form-control form-control-lg" id="password"
-                            placeholder="Create a password">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-lock text-muted"></i></span>
+                            <input type="password" class="form-control form-control-lg" id="password" placeholder="Create a password">
+                        </div>
                     </div>
+                    
                     <div class="mb-4">
                         <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
-                        <input type="password" class="form-control form-control-lg" id="confirmPassword"
-                            placeholder="Confirm your password">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-shield-lock text-muted"></i></span>
+                            <input type="password" class="form-control form-control-lg" id="confirmPassword" placeholder="Confirm your password">
+                        </div>
                     </div>
 
-                    <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-custom btn-lg fw-bold">Sign Up</button>
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-theme btn-lg">Sign Up</button>
                     </div>
 
                     <div class="text-center">
-                        <p class="mb-0">Already have an account? <a href="login.html"
-                                class="text-custom text-decoration-none fw-bold">Login</a></p>
+                        <p class="mb-0">Already have an account? <a href="login.html" class="text-theme text-decoration-none fw-bold">Login</a></p>
                     </div>
                 </form>
+                
             </div>
         </div>
     </div>
 
-
+    <!-- FOOTER -->
     <footer class="bg-light py-4 mt-auto border-top">
         <div class="container text-center text-secondary fw-medium">
-            (c) 2026 Xnotes | Rajarata University BICT
+            &copy; 2026 Xnotes | Rajarata University BICT
         </div>
     </footer>
 
@@ -135,14 +171,12 @@
     <!-- JAVASCRIPT VALIDATION -->
     <script>
         document.getElementById('registerForm').addEventListener('submit', function (event) {
-
             let name = document.getElementById('fullName').value.trim();
             let email = document.getElementById('email').value.trim();
             let password = document.getElementById('password').value.trim();
             let confirmPassword = document.getElementById('confirmPassword').value.trim();
             let errorAlert = document.getElementById('errorAlert');
 
-            // Check whether all the required fields are completed or not
             if (name === '' || email === '' || password === '' || confirmPassword === '') {
                 event.preventDefault();
                 errorAlert.innerText = 'Please fill in all fields!';
@@ -150,7 +184,6 @@
                 return;
             }
 
-            // Check the entered email ends with the required domain
             if (!email.endsWith('@tec.rjt.ac.lk')) {
                 event.preventDefault();
                 errorAlert.innerText = 'Please use a valid Rajarata University email (@tec.rjt.ac.lk)!';
@@ -158,7 +191,6 @@
                 return;
             }
 
-            // Check whether if the passsword matches 
             if (password !== confirmPassword) {
                 event.preventDefault();
                 errorAlert.innerText = 'Passwords do not match!';
@@ -166,10 +198,8 @@
                 return;
             }
 
-            //If all the requirement are ok, then the error message will be hidden
             errorAlert.classList.add('d-none');
         });
     </script>
 </body>
-
 </html>
