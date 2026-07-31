@@ -5,22 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Xnotes</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #967bb6;
-            --primary-hover: #7e679a;
-        }
 
+    <style>
         body {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('background.jpg');
-            background-size: cover; 
-            background-position: center; 
+            /* Background Image with updated transparent overlay */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)), url('background.jpg');
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
             display: flex;
@@ -32,43 +28,64 @@
             flex-grow: 1;
         }
 
-        .text-theme { color: var(--primary-color) !important; }
-        
-        .btn-outline-theme {
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            border-radius: 50px;
-            font-weight: 600;
+        /*  Glass Effect Class  */
+        .glass-element {
+            background: rgba(255, 255, 255, 0.5) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6) !important;
         }
-        .btn-outline-theme:hover {
-            background-color: var(--primary-color);
-            color: white;
+
+        .glass-card {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-btn {
+            font-size: 1.9rem;
+            color: #967bb6;
+            transition: transform 0.2s;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Text and Button Colors */
+        .text-theme {
+            color: #967bb6 !important;
         }
 
         .btn-theme {
-            background-color: var(--primary-color);
+            background-color: #967bb6;
             color: white;
             border-radius: 50px;
             font-weight: 600;
             transition: 0.3s ease;
         }
+
         .btn-theme:hover {
-            background-color: var(--primary-hover);
+            background-color: #7a6396;
             color: white;
         }
 
-        .glass-card {
-            border-radius: 1rem;
-            backdrop-filter: blur(5px);
-            background-color: rgba(255, 255, 255, 0.95);
+        /* Semi-transparent inputs for glass UI */
+        .form-control,
+        .input-group-text {
+            background-color: rgba(255, 255, 255, 0.7) !important;
+            border: none;
+        }
+
+        .form-control:focus {
+            background-color: #fff !important;
+            box-shadow: 0 0 10px rgba(150, 123, 182, 0.3);
         }
     </style>
 </head>
 
 <body>
 
-    <!-- NAVIGATION BAR -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2">
+    <!-- NAVIGATION BAR with Glass Effect -->
+    <nav class="navbar navbar-expand-lg glass-element shadow-sm py-2">
         <div class="container-fluid px-4">
             <a class="navbar-brand p-0 m-0" href="index.html">
                 <img src="logonew1.png" alt="Xnotes Logo" height="80">
@@ -80,16 +97,18 @@
                 <ul class="navbar-nav align-items-center gap-2">
                     <li class="nav-item">
                         <a class="nav-link px-3" href="index.html" title="Home">
-                            <i class="bi bi-house-door-fill text-theme" style="font-size: 1.9rem;"></i>
+                            <i class="bi bi-house-door-fill icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-3" href="#" title="About">
-                            <i class="bi bi-info-circle-fill text-theme" style="font-size: 1.9rem;"></i>
+                            <i class="bi bi-info-circle-fill icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 btn-outline-theme" href="login.html">Login</a>
+                        <a class="nav-link btn px-4 fw-semibold"
+                            style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;"
+                            href="login.html">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn px-4 btn-theme shadow-sm" href="register.html">Signup</a>
@@ -101,13 +120,14 @@
 
     <!-- MAIN CONTENT (SIGN UP FORM) -->
     <div class="container d-flex justify-content-center align-items-center mt-5 mb-5 main-content">
-        <div class="card shadow-lg border-0 glass-card" style="width: 100%; max-width: 500px;">
+        <!-- Added glass-element and glass-card -->
+        <div class="card glass-element glass-card border-0 rounded-4" style="width: 100%; max-width: 500px;">
             <div class="card-body p-4 p-md-5">
-                
+
                 <div class="text-center mb-4">
                     <i class="bi bi-person-plus text-theme" style="font-size: 3rem;"></i>
                     <h3 class="fw-bold mt-2">Create an Account</h3>
-                    <p class="text-muted">Join Xnotes to access BICT resources</p>
+                    <p class="text-dark fw-medium">Join Xnotes to access BICT resources</p>
                 </div>
 
                 <div id="errorAlert" class="alert alert-danger d-none text-center" role="alert"></div>
@@ -115,52 +135,57 @@
                 <form id="registerForm">
                     <div class="mb-3">
                         <label for="fullName" class="form-label fw-semibold">Full Name</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white"><i class="bi bi-person text-muted"></i></span>
-                            <input type="text" class="form-control form-control-lg" id="fullName" placeholder="Enter your full name">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text"><i class="bi bi-person text-theme"></i></span>
+                            <input type="text" class="form-control form-control-lg" id="fullName"
+                                placeholder="Enter your full name">
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="email" class="form-label fw-semibold">University Email</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white"><i class="bi bi-envelope text-muted"></i></span>
-                            <input type="email" class="form-control form-control-lg" id="email" placeholder="username@tec.rjt.ac.lk">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text"><i class="bi bi-envelope text-theme"></i></span>
+                            <input type="email" class="form-control form-control-lg" id="email"
+                                placeholder="username@tec.rjt.ac.lk">
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="password" class="form-label fw-semibold">Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white"><i class="bi bi-lock text-muted"></i></span>
-                            <input type="password" class="form-control form-control-lg" id="password" placeholder="Create a password">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text"><i class="bi bi-lock text-theme"></i></span>
+                            <input type="password" class="form-control form-control-lg" id="password"
+                                placeholder="Create a password">
                         </div>
                     </div>
-                    
+
                     <div class="mb-4">
                         <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white"><i class="bi bi-shield-lock text-muted"></i></span>
-                            <input type="password" class="form-control form-control-lg" id="confirmPassword" placeholder="Confirm your password">
+                        <div class="input-group shadow-sm rounded">
+                            <span class="input-group-text"><i class="bi bi-shield-lock text-theme"></i></span>
+                            <input type="password" class="form-control form-control-lg" id="confirmPassword"
+                                placeholder="Confirm your password">
                         </div>
                     </div>
 
                     <div class="d-grid mb-4">
-                        <button type="submit" class="btn btn-theme btn-lg">Sign Up</button>
+                        <button type="submit" class="btn btn-theme btn-lg shadow-sm">Sign Up</button>
                     </div>
 
                     <div class="text-center">
-                        <p class="mb-0">Already have an account? <a href="login.html" class="text-theme text-decoration-none fw-bold">Login</a></p>
+                        <p class="mb-0 fw-medium">Already have an account? <a href="login.html"
+                                class="text-theme text-decoration-none fw-bold">Login</a></p>
                     </div>
                 </form>
-                
+
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-light py-4 mt-auto border-top">
-        <div class="container text-center text-secondary fw-medium">
+    <!-- FOOTER With Glass Effect -->
+    <footer class="glass-element py-4 mt-auto">
+        <div class="container text-center text-dark fw-medium">
             &copy; 2026 Xnotes | Rajarata University BICT
         </div>
     </footer>
@@ -202,4 +227,5 @@
         });
     </script>
 </body>
+
 </html>
