@@ -40,7 +40,7 @@
             transition: all 0.3s ease;
         }
 
-        /* Hover animation for cards (Moved from JS to CSS) */
+        /* Hover animation for cards */
         .glass-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 10px 25px rgba(150, 123, 182, 0.4);
@@ -57,7 +57,6 @@
             transform: scale(1.1);
         }
 
-        /* Styling for Year Filter and Add Note Button */
         .glass-btn {
             background: rgba(255, 255, 255, 0.5) !important;
             backdrop-filter: blur(12px);
@@ -270,10 +269,7 @@
             cardContainer.innerHTML = html;
         }
 
-        // Call function when page loads
         renderCards();
-
-        // Listen to Search input and Year filter changes
         searchInput.addEventListener('input', renderCards);
         yearFilter.addEventListener('change', renderCards);
     </script>
