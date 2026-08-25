@@ -11,76 +11,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-    <style>
-        body {
-            /* Background Image with updated transparent overlay */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)), url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .main-content {
-            flex-grow: 1;
-        }
-
-        /* Glass Effect Class*/
-        .glass-element {
-            background: rgba(255, 255, 255, 0.5) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6) !important;
-        }
-
-        .glass-card {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .icon-btn {
-            font-size: 1.9rem;
-            color: #967bb6;
-            transition: transform 0.2s;
-        }
-
-        .icon-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Text and Button Colors */
-        .text-theme {
-            color: #967bb6 !important;
-        }
-
-        .btn-theme {
-            background-color: #967bb6;
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: 0.3s ease;
-        }
-
-        .btn-theme:hover {
-            background-color: #7a6396;
-            color: white;
-        }
-
-        /* Semi-transparent inputs for glass UI */
-        .form-control,
-        .input-group-text {
-            background-color: rgba(255, 255, 255, 0.7) !important;
-            border: none;
-        }
-
-        .form-control:focus {
-            background-color: #fff !important;
-            box-shadow: 0 0 10px rgba(150, 123, 182, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -88,34 +19,33 @@
     <!-- NAVIGATION BAR with Glass Effect-->
     <nav class="navbar navbar-expand-lg glass-element shadow-sm py-2">
         <div class="container-fluid px-4">
-            <a class="navbar-brand p-0 m-0" href="index.html">
-                <img src="logonew1.png" alt="Xnotes Logo" height="80">
+
+            <a class="navbar-brand p-0 m-0" href="../index.php">
+                <img src="../images/logonew1.png" alt="Xnotes Logo" height="80">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center gap-2">
-                    <!-- Home Icon -->
                     <li class="nav-item">
-                        <a class="nav-link active px-3" href="index.html" title="Home">
+                        <a class="nav-link px-3" href="../index.php" title="Home">
                             <i class="bi bi-house-door-fill icon-btn"></i>
                         </a>
                     </li>
-                    <!-- About Icon -->
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="contact.html" title="About / Contact">
+                        <a class="nav-link px-3" href="../contact.php" title="About / Contact">
                             <i class="bi bi-info-circle-fill icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 fw-semibold"
+                        <a class="nav-link btn px-4 fw-semibold active"
                             style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;"
-                            href="login.html">Login</a>
+                            href="login.php">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn px-4 text-white fw-semibold shadow-sm"
-                            style="background-color: #967bb6; border-radius: 50px;" href="register.html">Signup</a>
+                            style="background-color: #967bb6; border-radius: 50px;" href="register.php">Signup</a>
                     </li>
                 </ul>
             </div>
@@ -124,7 +54,6 @@
 
     <!-- MAIN CONTENT (LOGIN FORM) -->
     <div class="container d-flex justify-content-center align-items-center mt-5 mb-5 main-content">
-        <!-- Added glass-element and glass-card -->
         <div class="card glass-element glass-card border-0 rounded-4" style="width: 100%; max-width: 450px;">
             <div class="card-body p-4 p-md-5">
 
@@ -168,7 +97,7 @@
                     </div>
 
                     <div class="text-center">
-                        <p class="mb-0 fw-medium">Don't have an account? <a href="register.html"
+                        <p class="mb-0 fw-medium">Don't have an account? <a href="register.php"
                                 class="text-theme text-decoration-none fw-bold">Sign up</a></p>
                     </div>
                 </form>
@@ -177,7 +106,7 @@
         </div>
     </div>
 
-    <!-- FOOTER (Glass Effect Added) -->
+    <!-- FOOTER -->
     <footer class="glass-element py-4 mt-auto">
         <div class="container text-center text-dark fw-medium">
             &copy; 2026 Xnotes | Rajarata University BICT

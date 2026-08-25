@@ -7,87 +7,16 @@
     <title>Dashboard - Xnotes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)), url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
 
-        .main-content {
-            flex-grow: 1;
-        }
-
-        .glass-element {
-            background: rgba(255, 255, 255, 0.6) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.7) !important;
-        }
-
-        .glass-card {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border-radius: 1rem;
-        }
-
-        .icon-btn {
-            font-size: 1.9rem;
-            color: #967bb6;
-            transition: transform 0.2s;
-        }
-
-        .icon-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .btn-theme {
-            background-color: #967bb6;
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: 0.3s ease;
-        }
-
-        .btn-theme:hover {
-            background-color: #7e679a;
-            color: white;
-        }
-
-        .list-group-item {
-            background: transparent;
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .modal-content {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 1rem;
-        }
-
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.7) !important;
-            border: none;
-        }
-
-        .form-control:focus {
-            background-color: #fff !important;
-            box-shadow: 0 0 10px rgba(150, 123, 182, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand-lg glass-element shadow-sm py-2">
         <div class="container-fluid px-4">
-            <a class="navbar-brand p-0 m-0" href="index.html">
-                <img src="logonew1.png" alt="Xnotes Logo" height="80">
+            <a class="navbar-brand p-0 m-0" href="index.php">
+                <img src="images/logonew1.png" alt="Xnotes Logo" height="80">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -95,17 +24,17 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center gap-2">
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="index.html">
+                        <a class="nav-link px-3" href="index.php">
                             <i class="bi bi-house-door-fill icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="upload.html">
+                        <a class="nav-link px-3" href="upload.php">
                             <i class="bi bi-cloud-arrow-up-fill icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 btn-theme shadow-sm" href="login.html">Logout</a>
+                        <a class="nav-link btn px-4 btn-theme shadow-sm" href="auth/login.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -132,7 +61,7 @@
                 <div class="card glass-element glass-card p-4 h-100">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h5 class="fw-bold m-0">My Uploaded Notes</h5>
-                        <a href="upload.html" class="btn btn-sm btn-theme px-3">+ Add New</a>
+                        <a href="upload.php" class="btn btn-sm btn-theme px-3">+ Add New</a>
                     </div>
 
                     <ul class="list-group list-group-flush">

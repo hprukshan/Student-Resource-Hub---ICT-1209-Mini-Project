@@ -1,0 +1,125 @@
+body {
+
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)), url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex-grow: 1;
+}
+
+.glass-element {
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+}
+
+.glass-card {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(150, 123, 182, 0.4);
+    cursor: pointer;
+}
+
+.icon-btn {
+    font-size: 1.9rem;
+    color: #967bb6;
+    transition: transform 0.2s;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+}
+
+.glass-btn {
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 25px;
+    height: 44px;
+    padding: 0 1.25rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.8) !important;
+    transform: translateY(-2px);
+
+    .btn-theme {
+        background-color: #967bb6;
+        color: white;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .btn-theme:hover {
+        background-color: #7e679a;
+        color: white;
+    }
+
+    .list-group-item {
+        background: transparent;
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .modal-content {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 1rem;
+    }
+
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.7) !important;
+        border: none;
+    }
+
+    .form-control:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 10px rgba(150, 123, 182, 0.3);
+    }
+
+    #moduleSelect {
+        text-align-last: center;
+    }
+
+    #moduleSelect option {
+        text-align: left;
+    }
+
+    .upload-dropzone {
+        border: 2px dashed #967bb6;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.4);
+        transition: background 0.3s ease;
+        cursor: pointer;
+    }
+
+    .upload-dropzone:hover {
+        background: rgba(255, 255, 255, 0.7);
+    }
+
+    .text-theme {
+        color: #967bb6 !important;
+    }
+
+    .input-group-text {
+        background-color: rgba(255, 255, 255, 0.7) !important;
+        border: none;
+    }
+}

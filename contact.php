@@ -9,72 +9,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-    <style>
-        body {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)), url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .glass-element {
-            background: rgba(255, 255, 255, 0.5) !important;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6) !important;
-        }
-
-        .glass-card {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border-radius: 1rem;
-        }
-
-        /* Icon Hover Effects */
-        .icon-btn {
-            font-size: 1.9rem;
-            color: #967bb6;
-            transition: transform 0.2s;
-        }
-
-        .icon-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .btn-theme {
-            background-color: #967bb6;
-            color: white;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: 0.3s ease;
-        }
-
-        .btn-theme:hover {
-            background-color: #7e679a;
-            color: white;
-        }
-
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.7) !important;
-            border: none;
-        }
-
-        .form-control:focus {
-            background-color: #fff !important;
-            box-shadow: 0 0 10px rgba(150, 123, 182, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-
     <nav class="navbar navbar-expand-lg glass-element shadow-sm py-2">
         <div class="container-fluid px-4">
-            <a class="navbar-brand p-0 m-0" href="index.html">
-                <img src="logonew1.png" alt="Xnotes Logo" height="80">
+            <a class="navbar-brand p-0 m-0" href="index.php">
+                <img src="images/logonew1.png" alt="Xnotes Logo" height="80">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -82,29 +25,28 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav align-items-center gap-2">
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="index.html" title="Home">
+                        <a class="nav-link px-3" href="index.php" title="Home">
                             <i class="bi bi-house-door-fill icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-
-                        <a class="nav-link active px-3" href="contact.html" title="About / Contact">
+                        <a class="nav-link active px-3" href="contact.php" title="About / Contact">
                             <i class="bi bi-info-circle-fill icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="dashboard.html" title="Dashboard">
+                        <a class="nav-link px-3" href="dashboard.php" title="Dashboard">
                             <i class="bi bi-person-circle icon-btn"></i>
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3">
                         <a class="nav-link btn px-4 fw-semibold"
                             style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;"
-                            href="login.html">Login</a>
+                            href="auth/login.php">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn px-4 text-white fw-semibold shadow-sm"
-                            style="background-color: #967bb6; border-radius: 50px;" href="register.html">Signup</a>
+                            style="background-color: #967bb6; border-radius: 50px;" href="auth/register.php">Signup</a>
                     </li>
                 </ul>
             </div>
@@ -154,7 +96,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 
     <script>
         let form = document.getElementById('contactForm');
