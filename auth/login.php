@@ -1,3 +1,39 @@
+<?php
+
+session_start();
+require_once '../includes/db.php'; 
+
+$error = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?"); //Check the email in the Database
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    
+    if ($user && password_verify($password, $user['password'])) {
+        
+       
+        session_regenerate_id(true); //Update the session id
+        
+       
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['email'] = $user['email'];
+        
+       
+        header("Location: ../dashboard.php");
+        exit();
+        
+    } else {
+        $error = "Incorrect Password or Email";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,15 +98,18 @@
                     <h3 class="fw-bold mt-2">Welcome Back</h3>
                     <p class="text-dark fw-medium">Login to access your Xnotes</p>
                 </div>
+            <?php if($error != ''): ?>
+                     <div class="alert alert-danger text-center fw-bold"><?php echo $error; ?></div>
 
+             <?php endif; ?>
                 <div id="loginError" class="alert alert-danger d-none text-center" role="alert"></div>
 
-                <form id="loginForm">
+                <form id="loginForm" method="POST" action="">
                     <div class="mb-3">
                         <label for="email" class="form-label fw-semibold">Email Address</label>
                         <div class="input-group shadow-sm rounded">
                             <span class="input-group-text"><i class="bi bi-envelope text-theme"></i></span>
-                            <input type="email" class="form-control form-control-lg" id="email"
+                            <input type="email" class="form-control form-control-lg" id="email" name="email"
                                 placeholder="username@tec.rjt.ac.lk">
                         </div>
                     </div>
@@ -79,7 +118,7 @@
                         <label for="password" class="form-label fw-semibold">Password</label>
                         <div class="input-group shadow-sm rounded">
                             <span class="input-group-text"><i class="bi bi-lock text-theme"></i></span>
-                            <input type="password" class="form-control form-control-lg" id="password"
+                            <input type="password" class="form-control form-control-lg" id="password" name="password"
                                 placeholder="Enter your password">
                         </div>
                     </div>

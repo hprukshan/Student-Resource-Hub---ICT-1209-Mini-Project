@@ -1,3 +1,37 @@
+<?php
+// Database connection 
+require_once '../includes/db.php'; 
+
+$error = '';
+$success = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    //Check the email
+    $checkEmail = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $checkEmail->execute([$email]);
+
+    if ($checkEmail->rowCount() > 0) {
+        $error = "Already Registered!";
+    } else {
+        
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);//Password hashing 
+
+        
+        $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        
+        if ($stmt->execute([$username, $email, $hashed_password])) {
+            $success = "Registration Successful!";
+        } else {
+            $error = "An error occured! Please try again.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +45,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- ../ භාවිතා කර auth ෆෝල්ඩර් එකෙන් එළියට ගොස් css ෆයිල් එක ලින්ක් කිරීම -->
+  
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -62,15 +96,21 @@
                     <h3 class="fw-bold mt-2">Create an Account</h3>
                     <p class="text-dark fw-medium">Join Xnotes to access BICT resources</p>
                 </div>
+                <?php if($error != ''): ?>
+    <div class="alert alert-danger text-center fw-bold"><?php echo $error; ?></div>
+<?php endif; ?>
 
+<?php if($success != ''): ?>
+    <div class="alert alert-success text-center fw-bold"><?php echo $success; ?></div>
+<?php endif; ?>
                 <div id="errorAlert" class="alert alert-danger d-none text-center" role="alert"></div>
 
-                <form id="registerForm">
+                <form id="registerForm" method="POST" action="" >
                     <div class="mb-3">
                         <label for="fullName" class="form-label fw-semibold">Full Name</label>
                         <div class="input-group shadow-sm rounded">
                             <span class="input-group-text"><i class="bi bi-person text-theme"></i></span>
-                            <input type="text" class="form-control form-control-lg" id="fullName"
+                            <input type="text" class="form-control form-control-lg" id="fullName"name="username"
                                 placeholder="Enter your full name">
                         </div>
                     </div>
@@ -79,7 +119,7 @@
                         <label for="email" class="form-label fw-semibold">University Email</label>
                         <div class="input-group shadow-sm rounded">
                             <span class="input-group-text"><i class="bi bi-envelope text-theme"></i></span>
-                            <input type="email" class="form-control form-control-lg" id="email"
+                            <input type="email" class="form-control form-control-lg" id="email" name="email"
                                 placeholder="username@tec.rjt.ac.lk">
                         </div>
                     </div>
@@ -88,7 +128,7 @@
                         <label for="password" class="form-label fw-semibold">Password</label>
                         <div class="input-group shadow-sm rounded">
                             <span class="input-group-text"><i class="bi bi-lock text-theme"></i></span>
-                            <input type="password" class="form-control form-control-lg" id="password"
+                            <input type="password" class="form-control form-control-lg" id="password" name="password"
                                 placeholder="Create a password">
                         </div>
                     </div>

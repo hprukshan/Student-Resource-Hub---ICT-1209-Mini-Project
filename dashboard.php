@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+// Check weatehr user logged. if not backfire the user
+if (!isset($_SESSION['user_id'])) {
+    header("Location: auth/login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +43,7 @@
                         </a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 btn-theme shadow-sm" href="auth/login.php">Logout</a>
+                        <a class="nav-link btn px-4 btn-theme shadow-sm" href="auth/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -48,8 +57,8 @@
             <div class="col-md-4">
                 <div class="card glass-element glass-card p-4 text-center">
                     <i class="bi bi-person-circle display-1 text-secondary mb-3"></i>
-                    <h4 class="fw-bold">Student Name</h4>
-                    <p class="text-dark mb-2">student@tec.rjt.ac.lk</p>
+                    <h4 class="fw-bold"><?php echo $_SESSION['username']; ?></h4>
+                    <p class="text-dark mb-2"><?php echo $_SESSION['email']; ?></p>
                     <span class="badge rounded-pill text-white px-3 py-2 mb-3" style="background-color: #967bb6;">BICT
                         Undergraduate</span>
                     <button class="btn btn-sm btn-outline-dark rounded-pill fw-semibold" data-bs-toggle="modal"
