@@ -1,3 +1,31 @@
+<?php
+
+require_once 'includes/db.php';
+
+$successMsg = '';
+$errorMsg = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+
+    if (strpos($email, '@tec.rjt.ac.lk') !== false) { //Check the email from server-side 
+        
+    
+        $sql = "INSERT INTO message (name, email, message) VALUES (?, ?, ?)"; //Insert data
+        $stmt = $pdo->prepare($sql);
+        
+        if ($stmt->execute([$name, $email, $message])) {
+            $successMsg = "Your message has been sent successfully!";
+        } else {
+            $errorMsg = "An error occured! Please try again.";
+        }
+    } else {
+        $errorMsg = "Please use a valid university email!";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,32 +86,36 @@
         <div class="card glass-element glass-card p-4 p-md-5" style="width: 100%; max-width: 550px;">
 
             <h3 class="fw-bold text-center mb-4" style="color: #333;">Contact Us</h3>
+            
+       <?php if($errorMsg != ''): ?>
+    <div class="alert alert-danger text-center fw-bold"><?php echo $errorMsg; ?></div>
+    <?php endif; ?>
 
+    <?php if($successMsg != ''): ?>
+    <div class="alert alert-success text-center fw-bold"><?php echo $successMsg; ?></div>
+    <?php endif; ?>
             <div id="msgAlert" class="alert d-none text-center" role="alert"></div>
 
-            <form id="contactForm">
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Name</label>
-                    <input type="text" class="form-control form-control-lg" id="name" placeholder="Enter your name"
-                        required>
-                </div>
+           <form id="contactForm" method="POST" action="">
+    <div class="mb-3">
+        <label class="form-label fw-semibold">Name</label>
+        <input type="text" class="form-control form-control-lg" id="name" name="name" placeholder="Enter your name" required>
+    </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">University Email</label>
-                    <input type="email" class="form-control form-control-lg" id="email"
-                        placeholder="username@tec.rjt.ac.lk" required>
-                </div>
+    <div class="mb-3">
+        <label class="form-label fw-semibold">University Email</label>
+        <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="username@tec.rjt.ac.lk" required>
+    </div>
 
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Message</label>
-                    <textarea class="form-control form-control-lg" id="message" rows="5"
-                        placeholder="How can we help you?" required></textarea>
-                </div>
+    <div class="mb-4">
+        <label class="form-label fw-semibold">Message</label>
+        <textarea class="form-control form-control-lg" id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+    </div>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-theme btn-lg py-2 shadow-sm">Submit</button>
-                </div>
-            </form>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-theme btn-lg py-2 shadow-sm">Submit</button>
+    </div>
+</form>
         </div>
     </div>
 
@@ -98,26 +130,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        let form = document.getElementById('contactForm');
+    let form = document.getElementById('contactForm');
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
+    form.addEventListener('submit', function (e) {
+        let email = document.getElementById('email').value.trim();
+        let alertBox = document.getElementById('msgAlert');
 
-            let email = document.getElementById('email').value.trim();
-            let alertBox = document.getElementById('msgAlert');
-
-            if (email.endsWith('@tec.rjt.ac.lk')) {
-                alertBox.textContent = "Your message has been sent successfully!";
-                alertBox.className = "alert alert-success text-center";
-                alertBox.classList.remove('d-none');
-                form.reset();
-            } else {
-                alertBox.textContent = "Please use a valid university email!";
-                alertBox.className = "alert alert-danger text-center";
-                alertBox.classList.remove('d-none');
-            }
-        });
-    </script>
+        // preventDefault error show
+        if (!email.endsWith('@tec.rjt.ac.lk')) {
+            e.preventDefault(); 
+            alertBox.textContent = "Please use a valid university email!";
+            alertBox.className = "alert alert-danger text-center";
+            alertBox.classList.remove('d-none');
+        }
+       
+    });
+</script>
 </body>
 
 </html>
