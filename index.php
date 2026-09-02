@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=1.2">
 </head>
 
 <body>
@@ -33,20 +36,28 @@
                             <i class="bi bi-info-circle-fill icon-btn"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="dashboard.php" title="Dashboard">
-                            <i class="bi bi-person-circle icon-btn"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 fw-semibold"
-                            style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;"
-                            href="auth/login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn px-4 text-white fw-semibold shadow-sm"
-                            style="background-color: #967bb6; border-radius: 50px;" href="auth/register.php">Signup</a>
-                    </li>
+
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="dashboard.php" title="Dashboard">
+                                <i class="bi bi-person-circle icon-btn"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="nav-link btn px-4 btn-logout shadow-sm" href="auth/logout.php">
+                                <i class="bi bi-box-arrow-right me-1"></i> Logout
+                            </a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item ms-lg-3">
+                            <a class="nav-link btn px-4 fw-semibold"
+                                style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;"
+                                href="auth/login.php">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn px-4 btn-theme shadow-sm" href="auth/register.php">Signup</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

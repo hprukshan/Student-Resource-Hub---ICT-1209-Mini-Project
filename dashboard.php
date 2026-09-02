@@ -68,10 +68,10 @@ $notes = $stmt->fetchAll();
                         <a class="nav-link px-3" href="upload.php">
                             <i class="bi bi-cloud-arrow-up-fill icon-btn"></i>
                         </a>
-                    </li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 btn-theme shadow-sm" href="auth/logout.php">Logout</a>
-                    </li>
+                    </li><li>
+                    <a class="nav-link btn px-4 btn-logout shadow-sm" href="auth/logout.php">
+    <i class="bi bi-box-arrow-right me-1"></i> Logout
+</a></li>
                 </ul>
             </div>
         </div>

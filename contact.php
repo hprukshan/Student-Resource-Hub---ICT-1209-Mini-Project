@@ -1,25 +1,44 @@
 <?php
-
+session_start();
 require_once 'includes/db.php';
 
 $successMsg = '';
 $errorMsg = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $message = $_POST['message'];
+$userName = '';
+$userEmail = '';
+$isLoggedIn = false;
 
-    if (strpos($email, '@tec.rjt.ac.lk') !== false) { //Check the email from server-side 
-        
-    
-        $sql = "INSERT INTO message (name, email, message) VALUES (?, ?, ?)"; //Insert data
+if (isset($_SESSION['user_id'])) {
+    $isLoggedIn = true;
+    $userName  = $_SESSION['username'] ?? '';
+    $userEmail = $_SESSION['email'] ?? '';
+
+    if (empty($userName) || empty($userEmail)) {
+        $stmtUser = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmtUser->execute([$_SESSION['user_id']]);
+        $currentUser = $stmtUser->fetch(PDO::FETCH_ASSOC);
+
+        if ($currentUser) {
+            $userName  = $currentUser['username'] ?? ($currentUser['name'] ?? '');
+            $userEmail = $currentUser['email'] ?? '';
+        }
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $message = trim($_POST['message']);
+
+    if (strpos($email, '@tec.rjt.ac.lk') !== false) { 
+        $sql = "INSERT INTO message (name, email, message) VALUES (?, ?, ?)"; 
         $stmt = $pdo->prepare($sql);
         
         if ($stmt->execute([$name, $email, $message])) {
             $successMsg = "Your message has been sent successfully!";
         } else {
-            $errorMsg = "An error occured! Please try again.";
+            $errorMsg = "An error occurred! Please try again.";
         }
     } else {
         $errorMsg = "Please use a valid university email!";
@@ -36,8 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=1.2">
 </head>
 
 <body>
@@ -62,63 +80,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <i class="bi bi-info-circle-fill icon-btn"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="dashboard.php" title="Dashboard">
-                            <i class="bi bi-person-circle icon-btn"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="nav-link btn px-4 fw-semibold"
-                            style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;"
-                            href="auth/login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn px-4 text-white fw-semibold shadow-sm"
-                            style="background-color: #967bb6; border-radius: 50px;" href="auth/register.php">Signup</a>
-                    </li>
+
+                    <?php if ($isLoggedIn): ?>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="dashboard.php" title="Dashboard">
+                                <i class="bi bi-person-circle icon-btn"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="nav-link btn px-4 btn-logout shadow-sm" href="auth/logout.php">
+                                <i class="bi bi-box-arrow-right me-1"></i> Logout
+                            </a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item ms-lg-3">
+                            <a class="nav-link btn px-4 fw-semibold"
+                                style="border: 2px solid #967bb6; color: #967bb6; border-radius: 50px;"
+                                href="auth/login.php">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn px-4 btn-theme shadow-sm" href="auth/register.php">Signup</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Contact form -->
     <div class="container mt-5 mb-5 flex-grow-1 d-flex justify-content-center align-items-center">
         <div class="card glass-element glass-card p-4 p-md-5" style="width: 100%; max-width: 550px;">
 
             <h3 class="fw-bold text-center mb-4" style="color: #333;">Contact Us</h3>
             
-       <?php if($errorMsg != ''): ?>
-    <div class="alert alert-danger text-center fw-bold"><?php echo $errorMsg; ?></div>
-    <?php endif; ?>
+            <?php if(!empty($errorMsg)): ?>
+                <div class="alert alert-danger text-center fw-bold"><?php echo htmlspecialchars($errorMsg); ?></div>
+            <?php endif; ?>
 
-    <?php if($successMsg != ''): ?>
-    <div class="alert alert-success text-center fw-bold"><?php echo $successMsg; ?></div>
-    <?php endif; ?>
+            <?php if(!empty($successMsg)): ?>
+                <div class="alert alert-success text-center fw-bold"><?php echo htmlspecialchars($successMsg); ?></div>
+            <?php endif; ?>
             <div id="msgAlert" class="alert d-none text-center" role="alert"></div>
 
-           <form id="contactForm" method="POST" action="">
-    <div class="mb-3">
-        <label class="form-label fw-semibold">Name</label>
-        <input type="text" class="form-control form-control-lg" id="name" name="name" placeholder="Enter your name" required>
-    </div>
+            <form id="contactForm" method="POST" action="">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Name</label>
+                    <input type="text" class="form-control form-control-lg rounded-pill" id="name" name="name" 
+                        value="<?php echo htmlspecialchars($userName); ?>" 
+                        placeholder="Enter your name" 
+                        <?php echo $isLoggedIn ? 'readonly style="background-color: rgba(240, 240, 240, 0.7) !important;"' : ''; ?> 
+                        required>
+                </div>
 
-    <div class="mb-3">
-        <label class="form-label fw-semibold">University Email</label>
-        <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="username@tec.rjt.ac.lk" required>
-    </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">University Email</label>
+                    <input type="email" class="form-control form-control-lg rounded-pill" id="email" name="email" 
+                        value="<?php echo htmlspecialchars($userEmail); ?>" 
+                        placeholder="username@tec.rjt.ac.lk" 
+                        <?php echo $isLoggedIn ? 'readonly style="background-color: rgba(240, 240, 240, 0.7) !important;"' : ''; ?> 
+                        required>
+                </div>
 
-    <div class="mb-4">
-        <label class="form-label fw-semibold">Message</label>
-        <textarea class="form-control form-control-lg" id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
-    </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Message</label>
+                    <textarea class="form-control form-control-lg" id="message" name="message" rows="5" style="border-radius: 20px;" placeholder="How can we help you?" required></textarea>
+                </div>
 
-    <div class="d-grid">
-        <button type="submit" class="btn btn-theme btn-lg py-2 shadow-sm">Submit</button>
-    </div>
-</form>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-theme btn-lg py-2 shadow-sm">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
-
 
     <footer class="glass-element py-4 mt-auto">
         <div class="container text-center text-dark fw-medium">
@@ -126,7 +158,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -136,16 +167,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         let email = document.getElementById('email').value.trim();
         let alertBox = document.getElementById('msgAlert');
 
-        // preventDefault error show
         if (!email.endsWith('@tec.rjt.ac.lk')) {
             e.preventDefault(); 
             alertBox.textContent = "Please use a valid university email!";
             alertBox.className = "alert alert-danger text-center";
             alertBox.classList.remove('d-none');
         }
-       
     });
-</script>
+    </script>
 </body>
 
 </html>
