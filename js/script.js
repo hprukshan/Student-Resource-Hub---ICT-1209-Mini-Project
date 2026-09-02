@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <div class="card-body">
                                 <h5 class="card-title fw-bold">${code}</h5>
                                 <p class="card-text fw-semibold">${name}</p>
-                                <a href="view-notes.html?code=${code}&name=${name}" class="btn btn-sm text-white" style="background-color: #967bb6;">View Notes ▼</a>
+                                <a href="view-notes.php?code=${code}&name=${name}" class="btn btn-sm text-white" style="background-color: #967bb6;">View Notes ▼</a>
                             </div>
                         </div>
                     </div>`;

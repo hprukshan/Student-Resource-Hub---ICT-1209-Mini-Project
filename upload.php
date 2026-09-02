@@ -11,28 +11,32 @@ $successScript = '';
 $errorMsg = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title    = trim($_POST['title']);
-    $category = $_POST['category'] ?? ''; 
-    $user_id  = $_SESSION['user_id'];
+    $user_id     = $_SESSION['user_id'];
+    $module_code = trim($_POST['module_code'] ?? '');
+    $title       = trim($_POST['title'] ?? '');
     
     if (isset($_FILES['note_file']) && $_FILES['note_file']['error'] == 0) {
+        $file        = $_FILES['note_file'];
+        $fileName    = $file['name'];
+        $fileTmp     = $file['tmp_name'];
+        $fileExt     = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
         $allowedExts = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'zip'];
-        $filename    = $_FILES['note_file']['name'];
-        $fileExt     = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
         
         if (in_array($fileExt, $allowedExts)) {
-            $new_filename = time() . '_' . basename($filename);
-            $destination  = 'uploads/' . $new_filename;
+            $newFileName = time() . '_' . basename($fileName);
+            $uploadDir   = 'uploads/';
             
-            if (!is_dir('uploads/')) {
-                mkdir('uploads/', 0755, true);
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
             }
             
-            if (move_uploaded_file($_FILES['note_file']['tmp_name'], $destination)) {
-                $sql = "INSERT INTO notes (user_id, title, category, file_path, uploaded_at) VALUES (?, ?, ?, ?, NOW())";
+            $destination = $uploadDir . $newFileName;
+            
+            if (move_uploaded_file($fileTmp, $destination)) {
+                $sql = "INSERT INTO notes (user_id, module_code, title, category, file_path, uploaded_at) VALUES (?, ?, ?, ?, ?, NOW())";
                 $stmt = $pdo->prepare($sql);
                 
-                if ($stmt->execute([$user_id, $title, $category, $destination])) {
+                if ($stmt->execute([$user_id, $module_code, $title, $module_code, $destination])) {
                     $successScript = "
                     <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
                     <script>
@@ -107,7 +111,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-    <!-- NAV BAR -->
     <nav class="navbar navbar-expand-lg glass-element shadow-sm py-2">
         <div class="container-fluid px-4">
             <a class="navbar-brand p-0 m-0" href="index.php">
@@ -136,14 +139,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Category / Subject</label>
-                    <select class="form-select form-select-lg rounded-pill" id="categorySelect" name="category" required>
-                        <option value="" disabled selected>Select a subject...</option>
-                        <option value="Other">Other</option>
+                    <label class="form-label fw-semibold">Module Code & Name</label>
+                    <select class="form-select form-select-lg rounded-pill" id="moduleSelect" name="module_code" required>
+                        <option value="" disabled selected>Select a module...</option>
                     </select>
                 </div>
 
-                <!-- Custom Clean File Upload Area -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Select File (PDF, DOC, PPT, ZIP)</label>
                     <label class="custom-file-box shadow-sm" for="noteFileInput">
@@ -174,12 +175,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php echo $successScript; ?>
 
-    <script src="js/script.js"></script>
     <script>
-        // File එක තේරූ විට එහි නම පෙට්ටිය තුළ පෙන්වීම
+        const modules = [
+            [1, "ICT 1202", "Electronic Circuits"], [1, "ICT 1305", "Program Designing and Programming"], [1, "ICT 1111", "Productivity and Collaborative Tools"], [1, "CMT 1301", "Fundamentals of Physics for Technology"], [1, "CMT 1303", "Fundamentals of Mathematics for Technology"], [1, "CML 1301", "Personality Development"], [1, "CMT 1005", "Communication Skills I"], [1, "ICT 1210", "Introduction to Multimedia"], [1, "ICT 1108", "Skill Development Project I"], [1, "ICT 1209", "Web Technologies"], [1, "ICT 1207", "Human Computer Interaction"], [1, "CML 1203", "Principles of Management"], [1, "CML 1204", "Health and Wellbeing"], [1, "CMT 1009", "Communication Skills II"], [1, "CMT 1307", "Mathematics For Technology I"], [1, "ENT 1302", "Fundamentals of Electricity and Magnetism"],
+            [2, "ICT 2202", "Operating Systems"], [2, "ICT 2303", "Data Structures and Algorithms"], [2, "ICT 2304", "Object Oriented Programming"], [2, "ICT 2207", "Software System Design"], [2, "ICT 2212", "Skill Development Project II"], [2, "CML 2202", "Engineering Economics"], [2, "CMT 2002", "Communication Skills III"], [2, "EET 2207", "Mathematics for Technology II"], [2, "ICT 2305", "Computational Mathematics"], [2, "ICT 2214", "Introduction to Information Systems"], [2, "ICT 2211", "Fundamentals of Statistics"], [2, "ICT 2213", "Data Communication and Networking"], [2, "ICT 2308", "Database Systems"], [2, "ICT 2109", "Communication and Learning Skills"], [2, "CML 2204", "Foreign Language"], [2, "CML 2205", "Ethics for Science and Technology"],
+            [3, "ICT 3201", "Software Project Management"], [3, "ICT 3203", "Scientific Computer Applications"], [3, "CML 3101", "Legal and Patent Aspects"], [3, "ICT 3312", "Software Verification and Validation"], [3, "ICT 3206", "Skills Development Project III"], [3, "ICT 3314", "Advanced Computer Networks"], [3, "ICT 3208", "Design and Analysis of Algorithms"], [3, "ICT 3307", "Computational Statistics"], [3, "ICT 3217", "Advance Computer Networks"], [3, "ICT 3209", "Computer Organization and Architecture"], [3, "ICT 3310", "Information Security"], [3, "ICT 3311", "Robotics"], [3, "ICT 3315", "Internet of Things"], [3, "ICT 3213", "Advanced SW System Design"], [3, "ICT 3216", "Research Methodology"], [3, "ICT 3204", "E-Business Systems"], [3, "CML 3203", "Basics of Accountancy"],
+            [4, "ICT 4301", "Mobile Computing"], [4, "ICT 4202", "Internet Applications"], [4, "ICT 4203", "Software Engineering"], [4, "ICT 4205", "Current Topics in Information Technology"], [4, "ICT 4306", "Data Science"], [4, "ICT 4207", "Artificial Intelligence"], [4, "ICT 4210", "Digital Image Processing"], [4, "ICT 4211", "Computer Graphics and Visualization"], [4, "CML 4201", "Entrepreneurship"], [4, "CML 4202", "Human Resource Management"]
+        ];
+
+        const moduleSelect = document.getElementById('moduleSelect');
+        modules.forEach(mod => {
+            const opt = document.createElement('option');
+            opt.value = mod[1];
+            opt.textContent = `${mod[1]} - ${mod[2]}`;
+            moduleSelect.appendChild(opt);
+        });
+
         document.getElementById('noteFileInput').addEventListener('change', function() {
-            let fileName = this.files[0] ? this.files[0].name : "Choose a file to upload...";
-            let display = document.getElementById('fileNameDisplay');
+            const fileName = this.files[0] ? this.files[0].name : "Choose a file to upload...";
+            const display = document.getElementById('fileNameDisplay');
             display.innerText = fileName;
             display.style.color = '#333';
             display.style.fontWeight = '500';
